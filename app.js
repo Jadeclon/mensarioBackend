@@ -51,19 +51,28 @@ let vapidKeys = {
       privateKey: 'Lkh3A3K5IpcbyKr8eKJ-3SdMVe4yoRTy-AXZn09RcL4'
       }
 
-push.setVapidDetails('mailto:test@code.co.uk', vapidKeys.publicKey, vapidKeys.privateKey);
 
-//comment
-let sub = {
-      endpoint:"https://fcm.googleapis.com/fcm/send/flqNHNRQfo0:APA91bHxP2-4vh3X7HlWWz-LnsQvJcILG0mjIKAmgDI1rkFDLuzhDsVfnEkNMOxufDEBy_b8A8aCPOsRU3IpDlgLXhbP2S_G35Xnuqao_qlJ3nZlpsf8tOK3x7uvR1qGXSWr6ZYT2E-B",
-      expirationTime: null,
-      keys: {
-            p256dh: "BAEiftjEyZj6FuPxdUTu6_C4lIqTGVeLjjCwpBGM2aQwPzBGOWKRoSyTs65r_AtKWTz0fozhbHHLaFuI7EZoa1c",
-            auth: "9suFBn52aiaJfGJ0Ou_Usg"
-      }
-};
 
-push.sendNotification(sub, 'test message');
+
+
+
+app.get('/notification', (req, res) => {
+
+      console.log("Hello!!!")
+
+      push.setVapidDetails('mailto:test@code.co.uk', vapidKeys.publicKey, vapidKeys.privateKey);
+
+      let sub = {
+            endpoint:"https://fcm.googleapis.com/fcm/send/flqNHNRQfo0:APA91bHxP2-4vh3X7HlWWz-LnsQvJcILG0mjIKAmgDI1rkFDLuzhDsVfnEkNMOxufDEBy_b8A8aCPOsRU3IpDlgLXhbP2S_G35Xnuqao_qlJ3nZlpsf8tOK3x7uvR1qGXSWr6ZYT2E-B",
+            expirationTime: null,
+            keys: {
+                  p256dh: "BAEiftjEyZj6FuPxdUTu6_C4lIqTGVeLjjCwpBGM2aQwPzBGOWKRoSyTs65r_AtKWTz0fozhbHHLaFuI7EZoa1c",
+                  auth: "9suFBn52aiaJfGJ0Ou_Usg"
+            }
+      };
+      push.sendNotification(sub, 'test message');
+});
+
 
 
 // let vapidKeys = push.generateVAPIDKeys();
