@@ -54,7 +54,7 @@ let vapidKeys = {
 
 app.post('/notification', (req, res) => {
 
-      console.log("Hello!!!")
+      console.log("Hello!!!");
 
       const endpoint = req.body.endpoint;
       const p256dh = req.body.p256dh;
@@ -71,6 +71,8 @@ app.post('/notification', (req, res) => {
             }
       };
       push.sendNotification(sub, 'test message');
+
+      res.send("Helloo!!!");
 });
 
 
