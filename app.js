@@ -18,8 +18,8 @@ const db = mysql.createPool({
 });
 
 app.use(cors({
-      origin: ["https://mensario.netlify.app"],
-      // origin: ["http://localhost:3000"],
+      // origin: ["https://mensario.netlify.app"],
+      origin: ["http://localhost:3000"],
       methods: ["GET", "POST", "PUT"],
       credentials: true
 }));
@@ -54,11 +54,11 @@ let vapidKeys = {
 
 app.post('/notification', (req, res) => {
 
-      console.log("Hello!!!");
 
       const endpoint = req.body.endpoint;
       const p256dh = req.body.p256dh;
       const auth = req.body.auth;
+      const userId = req.body.userId;
 
       push.setVapidDetails('mailto:test@code.co.uk', vapidKeys.publicKey, vapidKeys.privateKey);
 
@@ -70,9 +70,25 @@ app.post('/notification', (req, res) => {
                   auth: auth
             }
       };
-      push.sendNotification(sub, 'test message');
 
-      res.send("Helloo!!!");
+      var options = {
+            gcmAPIKey: 'AIzaSyD1JcZ8WM1vTtH6Y0tXq_Pnuw4jgj_92yg',
+            TTL: 60
+          };
+
+      push.sendNotification(sub, 'test message', options).then( () => {
+            console.log("Notification should work!");
+      })
+      .catch((err) => {
+            console.log(err);
+      });
+
+
+      const sql = `INSERT INTO users (endpoint, p256dh, auth) VALUES (?,?,?) WHERE userId = ?`;
+
+      db.query(sql, [endpoint, p256dh, auth, userId], (err, result) => {
+            res.send("Result: " + result);
+      });
 });
 
 
