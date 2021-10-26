@@ -87,7 +87,12 @@ app.post('/notification', (req, res) => {
       const sql = `INSERT INTO users (endpoint, p256dh, auth) VALUES (?,?,?) WHERE userId = ?`;
 
       db.query(sql, [endpoint, p256dh, auth, userId], (err, result) => {
-            res.send("Result: " + result);
+
+            if(err) { console.log(err) } else {
+
+                  res.send("Result: " + result);
+            }
+            
       });
 });
 
