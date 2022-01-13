@@ -18,8 +18,8 @@ const db = mysql.createPool({
 });
 
 app.use(cors({
-      // origin: ["https://mensario.netlify.app"],
-      origin: ["http://localhost:3000"],
+      origin: ["https://mensario.netlify.app"],
+      // origin: ["http://localhost:3000"],
       methods: ["GET", "POST", "PUT"],
       credentials: true
 }));
