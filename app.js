@@ -18,12 +18,11 @@ const db = mysql.createPool({
 });
 
 app.use(cors({
-      origin: ["https://mensario.netlify.app"],
-      // origin: ["http://localhost:3000"],
+      // origin: ["https://mensario.netlify.app"],
+      origin: ["http://localhost:3000"],
       methods: ["GET", "POST", "PUT"],
       credentials: true
 }));
-
 app.use(express.json());
 app.use(
       express.urlencoded({
@@ -116,14 +115,6 @@ app.get('/blabla', (req, res) => {
 // console.log(vapidKeys);
 
 
-app.get('/api/get', (req, res) => {
-      const sql = `SELECT * FROM articles`;
-
-      db.query(sql, (err, result) => {
-            res.send(result);
-      });
-});
-
 
 app.post('/api/insert', (req, res) => {
 
@@ -132,21 +123,36 @@ app.post('/api/insert', (req, res) => {
       const city = req.body.city;
       const address = req.body.address;
       const sql = `INSERT INTO canteens (id, name, city, address) VALUES (?,?,?,?)`;
-      try {
+      // try {
             db.query(sql, [id, name, city, address], (err, result) => {
 
                   if (err) {
                         console.log(err);
                   }
                   else {
-                        console.log("Sucessfully inserted! aaa");
+                        res.send("Sucessfully inserted canteen "+ id + "!")
+                        console.log("Sucessfully inserted canteen "+ id + "!");
                         // console.log(result);
                   }
+
+                  console.log("Result: " + result);
             });
-      } catch (e) {
-            console.log(e);
-      }
+      // } catch (e) {
+      //       console.log(e);
+      // }
 });
+
+
+app.get("/getCanteens", (req, res) => {
+      // if(!req.session.user) { return res.send("You are not logged in!"); }
+      
+      const sql = `SELECT * FROM canteens`;
+
+      db.query(sql, (err, result) => {
+            res.send(result);
+      });
+});
+
 
 app.post('/api/signup', (req, res) => {
 
@@ -159,9 +165,14 @@ app.post('/api/signup', (req, res) => {
 
                   if (err) {
                         console.log(err);
+                        if(err.sqlMessage.includes("Duplicate"))
+                        {
+                              res.send({ msg: err.sqlMessage, loggedIn: false });
+                        }
                   }
                   else {
                         console.log("Sucessfully inserted new user!");
+                        res.send({ msg: "Signed up successfully!", loggedIn: true});
                         // console.log(result);
                   }
             });
@@ -175,8 +186,7 @@ app.post('/login', (req, res) => {
       const username = req.body.username;
       const password = req.body.password;
 
-      db.query("SELECT * FROM users WHERE username = ?",
-            [username], (err, result) => {
+      db.query("SELECT * FROM users WHERE username = ?", [username], (err, result) => {
 
                   if(err) { console.log }
 
@@ -206,6 +216,12 @@ app.get("/login", (req, res) => {
       } else {
             res.send({ loggedIn: false });
       }
+});
+
+app.post("/logout", (req, res) => {
+      delete req.session.user;
+      loggedIn = false;
+      res.send("Logout");
 });
 
 
