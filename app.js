@@ -193,7 +193,7 @@ app.post('/login', (req, res) => {
                   if(result.length > 0) {
                         if(password === result[0].password) {
                               req.session.user = result;
-                              req.session.user[0].password = "looser";
+                              req.session.user[0].password = "?";
                               // console.log(req.session.user[0]);
                               loggedIn = true;
                               res.send({ msg: "Logged in successfully!", loggedIn: true, user: req.session.user[0] });
