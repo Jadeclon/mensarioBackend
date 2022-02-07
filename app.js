@@ -18,8 +18,8 @@ const db = mysql.createPool({
 });
 
 app.use(cors({
-      origin: ["https://mensario.netlify.app"],
-      // origin: ["http://localhost:3000"],
+      // origin: ["https://mensario.netlify.app"],
+      origin: ["http://localhost:3000"],
       methods: ["GET", "POST", "PUT"],
       credentials: true
 }));
@@ -122,9 +122,12 @@ app.post('/api/insert', (req, res) => {
       const name = req.body.name;
       const city = req.body.city;
       const address = req.body.address;
-      const sql = `INSERT INTO canteens (id, name, city, address) VALUES (?,?,?,?)`;
+      const lat = req.body.lat;
+      const lng = req.body.lng;
+      console.log("Type: " + typeof lat)
+      const sql = `INSERT INTO canteens (id, name, city, address, lat, lng) VALUES (?,?,?,?,?,?)`;
       // try {
-            db.query(sql, [id, name, city, address], (err, result) => {
+            db.query(sql, [id, name, city, address, lat, lng], (err, result) => {
 
                   if (err) {
                         console.log(err);
