@@ -66,12 +66,12 @@ app.get("/vapidPublicKey", (req, res) => {
 });
 
 
-app.post("register", (req, res) => {
+app.post("/register", (req, res) => {
     // A real world application would store the subscription info.
     res.sendStatus(201);
 });
 
-app.post("sendNotification", (req, res) => {
+app.post("/sendNotification", (req, res) => {
     const subscription = req.body.subscription;
     const payload = req.body.payload;
     const options = {
