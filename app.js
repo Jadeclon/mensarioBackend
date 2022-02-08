@@ -70,7 +70,7 @@ app.get("/vapidPublicKey", (req, res) => {
 app.post("/register", (req, res) => {
     res.sendStatus(201);
 
-    console.log("Subscription: " + req.body.endpoint);
+    console.log("Subscription: " + JSON.stringify(req.body));
     // A real world application would store the subscription info.
 
     
