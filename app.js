@@ -67,8 +67,25 @@ app.get("/vapidPublicKey", (req, res) => {
 
 
 app.post("/register", (req, res) => {
-    // A real world application would store the subscription info.
     res.sendStatus(201);
+
+    console.log("Subscription: " + req.body);
+    // A real world application would store the subscription info.
+
+    // const sql = `INSERT INTO canteens (id, name, city, address, lat, lng) VALUES (?,?,?,?,?,?)`;
+    // db.query(sql, [id, name, city, address, lat, lng], (err, result) => {
+
+    //     if (err) {
+    //         console.log(err);
+    //     }
+    //     else {
+    //         res.send("Sucessfully inserted canteen "+ id + "!")
+    //         console.log("Sucessfully inserted canteen "+ id + "!");
+    //         // console.log(result);
+    //     }
+
+    //     console.log("Result: " + result);
+    // });
 });
 
 app.post("/sendNotification", (req, res) => {
@@ -80,117 +97,44 @@ app.post("/sendNotification", (req, res) => {
 
 
 
-    setTimeout(function()
-    {
-      webPush.sendNotification(subscription, payload, options)
-      .then(function() {
+setTimeout(function()
+{
+    webPush.sendNotification(subscription, payload, options)
+    .then(function() {
         res.sendStatus(201);
-      })
-      .catch(function(error) {
+    })
+    .catch(function(error) {
         console.log(error);
         res.sendStatus(500);
-      });
-    }, req.body.delay * 1000);
-  });
-
-
-// let vapidKeys = {
-//       publicKey: 'BML-d_mtfTfGQnJChc-qPEIJ7w3x0j5p4smNp7GuImG0XuyvqU_lnUnzBeUAPgm4HOIH17Le60zn44D1DBj-9Tg',  
-//       privateKey: 'Lkh3A3K5IpcbyKr8eKJ-3SdMVe4yoRTy-AXZn09RcL4'
-// }
-
-
-// app.post('/notification', (req, res) => {
-
-
-//       const endpoint = req.body.endpoint;
-//       const p256dh = req.body.p256dh;
-//       const auth = req.body.auth;
-//       const userId = req.body.userId;
-
-//       push.setVapidDetails('mailto:test@code.co.uk', vapidKeys.publicKey, vapidKeys.privateKey);
-
-//       let sub = {
-//             endpoint: endpoint,
-//             expirationTime: null,
-//             keys: {
-//                   p256dh: p256dh,
-//                   auth: auth
-//             }
-//       };
-
-//       var options = {
-//             gcmAPIKey: 'AIzaSyD1JcZ8WM1vTtH6Y0tXq_Pnuw4jgj_92yg',
-//             TTL: 60
-//           };
-
-//       push.sendNotification(sub, 'test message', options).then( () => {
-//             console.log("Notification should work!");
-//       })
-//       .catch((err) => {
-//             console.log(err);
-//       });
-
-
-//       const sql = `INSERT INTO users (endpoint, p256dh, auth) VALUES (?,?,?) WHERE userId = ?`;
-
-//       db.query(sql, [endpoint, p256dh, auth, userId], (err, result) => {
-
-//             if(err) { console.log(err) } else {
-
-//                   res.send("Result: " + result);
-//             }
-            
-//       });
-// });
-
-
-// app.get('/blabla', (req, res) => {
-
-//       console.log("blabla!!!")
-
-//       if (Notification.permission == 'granted') {
-//             navigator.serviceWorker.getRegistration().then(function(reg) {
-//                   reg.showNotification('Hello world!');
-//             });
-//       }
-// });
-
-
-
-// let vapidKeys = push.generateVAPIDKeys();
-
-// console.log(vapidKeys);
+    });
+}, req.body.delay * 1000);
+});
 
 
 
 app.post('/api/insert', (req, res) => {
 
-      const id = req.body.id;
-      const name = req.body.name;
-      const city = req.body.city;
-      const address = req.body.address;
-      const lat = req.body.lat;
-      const lng = req.body.lng;
-      console.log("Type: " + typeof lat)
-      const sql = `INSERT INTO canteens (id, name, city, address, lat, lng) VALUES (?,?,?,?,?,?)`;
-      // try {
-            db.query(sql, [id, name, city, address, lat, lng], (err, result) => {
+    const id = req.body.id;
+    const name = req.body.name;
+    const city = req.body.city;
+    const address = req.body.address;
+    const lat = req.body.lat;
+    const lng = req.body.lng;
+    console.log("Type: " + typeof lat)
+    const sql = `INSERT INTO canteens (id, name, city, address, lat, lng) VALUES (?,?,?,?,?,?)`;
+    db.query(sql, [id, name, city, address, lat, lng], (err, result) => {
 
-                  if (err) {
-                        console.log(err);
-                  }
-                  else {
-                        res.send("Sucessfully inserted canteen "+ id + "!")
-                        console.log("Sucessfully inserted canteen "+ id + "!");
-                        // console.log(result);
-                  }
+        if (err) {
+            console.log(err);
+        }
+        else {
+            res.send("Sucessfully inserted canteen "+ id + "!")
+            console.log("Sucessfully inserted canteen "+ id + "!");
+            // console.log(result);
+        }
 
-                  console.log("Result: " + result);
-            });
-      // } catch (e) {
-      //       console.log(e);
-      // }
+        console.log("Result: " + result);
+    });
 });
 
 
