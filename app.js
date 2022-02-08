@@ -4,7 +4,7 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const app = express();
 const cors = require('cors');
-var push = require('web-push');
+var webPush = require('web-push');
 const mysql = require('mysql');
 require('dotenv').config();
 
@@ -18,8 +18,8 @@ const db = mysql.createPool({
 });
 
 app.use(cors({
-      origin: ["https://mensario.netlify.app"],
-    //   origin: ["http://localhost:3000"],
+    //   origin: ["https://mensario.netlify.app"],
+      origin: ["http://localhost:3000"],
       methods: ["GET", "POST", "PUT"],
       credentials: true
 }));
@@ -44,69 +44,117 @@ app.use(session({
 );
 
 
-
-
-let vapidKeys = {
-      publicKey: 'BML-d_mtfTfGQnJChc-qPEIJ7w3x0j5p4smNp7GuImG0XuyvqU_lnUnzBeUAPgm4HOIH17Le60zn44D1DBj-9Tg',  
-      privateKey: 'Lkh3A3K5IpcbyKr8eKJ-3SdMVe4yoRTy-AXZn09RcL4'
+if (!process.env.VAPID_PUBLIC_KEY || !process.env.VAPID_PRIVATE_KEY)
+{
+    console.log("You must set the VAPID_PUBLIC_KEY and VAPID_PRIVATE_KEY "+
+      "environment variables. You can use the following ones:");
+    console.log(webPush.generateVAPIDKeys());
+    return;
 }
 
+// Set the keys used for encrypting the push messages.
+webPush.setVapidDetails(
+    'https://serviceworke.rs/',
+    process.env.VAPID_PUBLIC_KEY,
+    process.env.VAPID_PRIVATE_KEY
+);
 
-app.post('/notification', (req, res) => {
 
 
-      const endpoint = req.body.endpoint;
-      const p256dh = req.body.p256dh;
-      const auth = req.body.auth;
-      const userId = req.body.userId;
+app.get("/vapidPublicKey", (req, res) => {
+    res.send(process.env.VAPID_PUBLIC_KEY);
+});
 
-      push.setVapidDetails('mailto:test@code.co.uk', vapidKeys.publicKey, vapidKeys.privateKey);
 
-      let sub = {
-            endpoint: endpoint,
-            expirationTime: null,
-            keys: {
-                  p256dh: p256dh,
-                  auth: auth
-            }
-      };
+app.post("register", (req, res) => {
+    // A real world application would store the subscription info.
+    res.sendStatus(201);
+});
 
-      var options = {
-            gcmAPIKey: 'AIzaSyD1JcZ8WM1vTtH6Y0tXq_Pnuw4jgj_92yg',
-            TTL: 60
-          };
+app.post("sendNotification", (req, res) => {
+    const subscription = req.body.subscription;
+    const payload = req.body.payload;
+    const options = {
+      TTL: req.body.ttl
+};
 
-      push.sendNotification(sub, 'test message', options).then( () => {
-            console.log("Notification should work!");
+
+
+    setTimeout(function()
+    {
+      webPush.sendNotification(subscription, payload, options)
+      .then(function() {
+        res.sendStatus(201);
       })
-      .catch((err) => {
-            console.log(err);
+      .catch(function(error) {
+        console.log(error);
+        res.sendStatus(500);
       });
+    }, req.body.delay * 1000);
+  });
 
 
-      const sql = `INSERT INTO users (endpoint, p256dh, auth) VALUES (?,?,?) WHERE userId = ?`;
+// let vapidKeys = {
+//       publicKey: 'BML-d_mtfTfGQnJChc-qPEIJ7w3x0j5p4smNp7GuImG0XuyvqU_lnUnzBeUAPgm4HOIH17Le60zn44D1DBj-9Tg',  
+//       privateKey: 'Lkh3A3K5IpcbyKr8eKJ-3SdMVe4yoRTy-AXZn09RcL4'
+// }
 
-      db.query(sql, [endpoint, p256dh, auth, userId], (err, result) => {
 
-            if(err) { console.log(err) } else {
+// app.post('/notification', (req, res) => {
 
-                  res.send("Result: " + result);
-            }
+
+//       const endpoint = req.body.endpoint;
+//       const p256dh = req.body.p256dh;
+//       const auth = req.body.auth;
+//       const userId = req.body.userId;
+
+//       push.setVapidDetails('mailto:test@code.co.uk', vapidKeys.publicKey, vapidKeys.privateKey);
+
+//       let sub = {
+//             endpoint: endpoint,
+//             expirationTime: null,
+//             keys: {
+//                   p256dh: p256dh,
+//                   auth: auth
+//             }
+//       };
+
+//       var options = {
+//             gcmAPIKey: 'AIzaSyD1JcZ8WM1vTtH6Y0tXq_Pnuw4jgj_92yg',
+//             TTL: 60
+//           };
+
+//       push.sendNotification(sub, 'test message', options).then( () => {
+//             console.log("Notification should work!");
+//       })
+//       .catch((err) => {
+//             console.log(err);
+//       });
+
+
+//       const sql = `INSERT INTO users (endpoint, p256dh, auth) VALUES (?,?,?) WHERE userId = ?`;
+
+//       db.query(sql, [endpoint, p256dh, auth, userId], (err, result) => {
+
+//             if(err) { console.log(err) } else {
+
+//                   res.send("Result: " + result);
+//             }
             
-      });
-});
+//       });
+// });
 
 
-app.get('/blabla', (req, res) => {
+// app.get('/blabla', (req, res) => {
 
-      console.log("blabla!!!")
+//       console.log("blabla!!!")
 
-      if (Notification.permission == 'granted') {
-            navigator.serviceWorker.getRegistration().then(function(reg) {
-                  reg.showNotification('Hello world!');
-            });
-      }
-});
+//       if (Notification.permission == 'granted') {
+//             navigator.serviceWorker.getRegistration().then(function(reg) {
+//                   reg.showNotification('Hello world!');
+//             });
+//       }
+// });
 
 
 
