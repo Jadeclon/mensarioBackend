@@ -73,23 +73,11 @@ app.post("/register", (req, res) => {
     console.log("Subscription: " + req.body);
     // A real world application would store the subscription info.
 
-    // const sql = `INSERT INTO canteens (id, name, city, address, lat, lng) VALUES (?,?,?,?,?,?)`;
-    // db.query(sql, [id, name, city, address, lat, lng], (err, result) => {
-
-    //     if (err) {
-    //         console.log(err);
-    //     }
-    //     else {
-    //         res.send("Sucessfully inserted canteen "+ id + "!")
-    //         console.log("Sucessfully inserted canteen "+ id + "!");
-    //         // console.log(result);
-    //     }
-
-    //     console.log("Result: " + result);
-    // });
+    
 });
 
 app.post("/sendNotification", (req, res) => {
+    console.log("Sending Notification...");
     const subscription = req.body.subscription;
     const payload = req.body.payload;
     const options = {
