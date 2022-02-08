@@ -31,6 +31,7 @@ app.use(
 );
 app.use(cookieParser());
 // app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser);
 
 app.use(session({
             key: "userId",
