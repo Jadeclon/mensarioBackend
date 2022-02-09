@@ -72,9 +72,9 @@ app.post("/register", (req, res) => {
 
     console.log("Subscription: " + JSON.stringify(req.body));
     console.log("Subscription: " + JSON.stringify(req.body.subscription));
-    console.log("Subscription: " + JSON.stringify(req.body).subscription);
-    console.log("Subscription: " + JSON.stringify(req.body).p256dh);
-    console.log("Subscription: " + JSON.stringify(req.body).auth);
+    console.log("Subscription: " + JSON.stringify(req.body.endpoint));
+    console.log("Subscription: " + JSON.stringify(req.body.p256dh));
+    console.log("Subscription: " + JSON.stringify(req.body.auth));
     // A real world application would store the subscription info.
 
     
