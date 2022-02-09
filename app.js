@@ -82,7 +82,7 @@ const rebuildSubscription = (endpoint, expTime, p256dh, auth) => {
     console.log("\n========================[Rebuild]========================\n")
     console.log("Rebuild: " + JSON.stringify(rebuild));
 
-    let endpoint2 = JSON.stringify(rebuild.subscription.endpoint).replaceAll("\"", "");
+    let endpoint2 = JSON.stringify(rebuild.subscription.endpoint);
     console.log("Endpoint: " + endpoint2);
 
     let expTime2 = JSON.stringify(rebuild.subscription.expirationTime);
@@ -105,14 +105,15 @@ app.post("/register", (req, res) => {
     let endpoint = JSON.stringify(req.body.subscription.endpoint).replaceAll("\"", "");
     console.log("Endpoint: " + endpoint);
 
-    let expTime = JSON.stringify(req.body.subscription.expirationTime);
+    let expTime = JSON.stringify(req.body.subscription.expirationTime).replaceAll("\"", "");
     console.log("Expiration Time: " + expTime);
+    if(expTime == "null") { expTime = null; }
     // console.log("Keys: " + JSON.stringify(req.body.subscription.keys));
 
-    let p256dh = JSON.stringify(req.body.subscription.keys.p256dh);
+    let p256dh = JSON.stringify(req.body.subscription.keys.p256dh).replaceAll("\"", "");
     console.log("p256dh: " + p256dh);
 
-    let auth = JSON.stringify(req.body.subscription.keys.auth);
+    let auth = JSON.stringify(req.body.subscription.keys.auth).replaceAll("\"", "");
     console.log("Auth: " + auth);
     // A real world application would store the subscription info.
 
