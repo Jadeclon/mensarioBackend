@@ -67,6 +67,36 @@ app.get("/vapidPublicKey", (req, res) => {
 });
 
 
+const rebuildSubscription = (endpoint, expTime, p256dh, auth) => {
+
+        let rebuild = {"subscription": {
+            "endpoint":endpoint,
+            "expirationTime":null,
+            "keys":
+                {
+                    "p256dh":p256dh,
+                    "auth":auth
+                }
+        }
+    };
+    console.log("\n========================[Rebuild]========================\n")
+    console.log("Rebuild: " + JSON.stringify(rebuild));
+
+    let endpoint = JSON.stringify(rebuild.subscription.endpoint);
+    console.log("Endpoint: " + endpoint);
+
+    let expTime = JSON.stringify(rebuild.subscription.expirationTime);
+    console.log("Expiration Time: " + expTime);
+    // console.log("Keys: " + JSON.stringify(req.body.subscription.keys));
+
+    let p256dh = JSON.stringify(rebuild.subscription.keys.p256dh);
+    console.log("p256dh: " + p256dh);
+
+    let auth = JSON.stringify(rebuild.subscription.keys.auth);
+    console.log("Auth: " + auth);
+}
+
+
 app.post("/register", (req, res) => {
     res.sendStatus(201);
 
@@ -86,18 +116,7 @@ app.post("/register", (req, res) => {
     console.log("Auth: " + auth);
     // A real world application would store the subscription info.
 
-    let rebuild = {"subscription": {
-                                        "endpoint":endpoint,
-                                        "expirationTime":null,
-                                        "keys":
-                                            {
-                                                "p256dh":p256dh,
-                                                "auth":auth
-                                            }
-                                    }
-                                };
-    console.log("Rebuild: " + JSON.stringify(rebuild));
-
+    rebuildSubscription(endpoint, expTime, p256dh, auth);
     
 });
 
