@@ -125,10 +125,11 @@ app.post("/register", (req, res) => {
 
     let auth = JSON.stringify(req.body.subscription.keys.auth).replaceAll("\"", "");
     console.log("Auth: " + auth);
+    
     // A real world application would store the subscription info.
 
     // rebuildSubscription(endpoint, expTime, p256dh, auth);
-    saveSubscription(endpoint, expTime, p256dh, auth, 24);
+    // saveSubscription(endpoint, expTime, p256dh, auth, 24);
     
 });
 
