@@ -82,7 +82,7 @@ const rebuildSubscription = (endpoint, expTime, p256dh, auth) => {
     console.log("\n========================[Rebuild]========================\n")
     console.log("Rebuild: " + JSON.stringify(rebuild));
 
-    let endpoint2 = JSON.stringify(rebuild.subscription.endpoint);
+    let endpoint2 = JSON.stringify(rebuild.subscription.endpoint).replace("\"", "");
     console.log("Endpoint: " + endpoint2);
 
     let expTime2 = JSON.stringify(rebuild.subscription.expirationTime);
@@ -102,7 +102,7 @@ app.post("/register", (req, res) => {
 
     console.log("Whole Subscription: " + JSON.stringify(req.body));
     // console.log("Subscription: " + JSON.stringify(req.body.subscription));
-    let endpoint = JSON.stringify(req.body.subscription.endpoint);
+    let endpoint = JSON.stringify(req.body.subscription.endpoint).replace("\"", "");
     console.log("Endpoint: " + endpoint);
 
     let expTime = JSON.stringify(req.body.subscription.expirationTime);
