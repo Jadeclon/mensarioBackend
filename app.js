@@ -71,7 +71,7 @@ const rebuildSubscription = (endpoint, expTime, p256dh, auth) => {
 
         let rebuild = {"subscription": {
             "endpoint":endpoint,
-            "expirationTime":null,
+            "expirationTime":expTime,
             "keys":
                 {
                     "p256dh":p256dh,
@@ -82,18 +82,18 @@ const rebuildSubscription = (endpoint, expTime, p256dh, auth) => {
     console.log("\n========================[Rebuild]========================\n")
     console.log("Rebuild: " + JSON.stringify(rebuild));
 
-    let endpoint = JSON.stringify(rebuild.subscription.endpoint);
-    console.log("Endpoint: " + endpoint);
+    let endpoint2 = JSON.stringify(rebuild.subscription.endpoint);
+    console.log("Endpoint: " + endpoint2);
 
-    let expTime = JSON.stringify(rebuild.subscription.expirationTime);
-    console.log("Expiration Time: " + expTime);
+    let expTime2 = JSON.stringify(rebuild.subscription.expirationTime);
+    console.log("Expiration Time: " + expTime2);
     // console.log("Keys: " + JSON.stringify(req.body.subscription.keys));
 
-    let p256dh = JSON.stringify(rebuild.subscription.keys.p256dh);
-    console.log("p256dh: " + p256dh);
+    let p256dh2 = JSON.stringify(rebuild.subscription.keys.p256dh);
+    console.log("p256dh: " + p256dh2);
 
-    let auth = JSON.stringify(rebuild.subscription.keys.auth);
-    console.log("Auth: " + auth);
+    let auth2 = JSON.stringify(rebuild.subscription.keys.auth);
+    console.log("Auth: " + auth2);
 }
 
 
