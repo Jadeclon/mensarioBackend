@@ -69,31 +69,41 @@ app.get("/vapidPublicKey", (req, res) => {
 
 const rebuildSubscription = (endpoint, expTime, p256dh, auth) => {
 
-        let rebuild = {"subscription": {
-            "endpoint":endpoint,
-            "expirationTime":expTime,
-            "keys":
-                {
-                    "p256dh":p256dh,
-                    "auth":auth
-                }
+    let rebuild = {"subscription": {
+        "endpoint":endpoint,
+        "expirationTime":expTime,
+        "keys":
+            {
+                "p256dh":p256dh,
+                "auth":auth
+            }
         }
     };
     console.log("\n========================[Rebuild]========================\n")
     console.log("Rebuild: " + JSON.stringify(rebuild));
 
-    let endpoint2 = JSON.stringify(rebuild.subscription.endpoint);
+    let endpoint2 = JSON.stringify(rebuild.subscription.endpoint).replaceAll("\"", "");
     console.log("Endpoint: " + endpoint2);
 
-    let expTime2 = JSON.stringify(rebuild.subscription.expirationTime);
+    let expTime2 = JSON.stringify(rebuild.subscription.expirationTime).replaceAll("\"", "");
     console.log("Expiration Time: " + expTime2);
-    // console.log("Keys: " + JSON.stringify(req.body.subscription.keys));
 
-    let p256dh2 = JSON.stringify(rebuild.subscription.keys.p256dh);
+    let p256dh2 = JSON.stringify(rebuild.subscription.keys.p256dh).replaceAll("\"", "");
     console.log("p256dh: " + p256dh2);
 
-    let auth2 = JSON.stringify(rebuild.subscription.keys.auth);
+    let auth2 = JSON.stringify(rebuild.subscription.keys.auth).replaceAll("\"", "");
     console.log("Auth: " + auth2);
+}
+
+
+const saveSubscription = (endpoint, expTime, p256dh, auth, userId) => {
+
+    const sql = `UPDATE users SET endpoint = ?, expirationTime = ?, p256dh = ?, auth = ? WHERE userId = ?`;
+    
+    db.query(sql, [endpoint, expTime, p256dh, auth, userId], (err, result) => {
+          console.log("Sucessfully saved subscription!");
+          if (err) console.log(err);
+    });
 }
 
 
@@ -118,6 +128,7 @@ app.post("/register", (req, res) => {
     // A real world application would store the subscription info.
 
     rebuildSubscription(endpoint, expTime, p256dh, auth);
+    saveSubscription(endpoint, expTime, p256dh, auth, 24);
     
 });
 
@@ -272,8 +283,7 @@ app.put('/api/updateUser', async (req, res) => {
       const favoriteCanteen = req.body.favoriteCanteen;
       const favoriteMeal = req.body.favoriteMeal;
       const sql = `UPDATE users SET favoriteCanteen = ?, favoriteMeal = ? WHERE userId = ?`;
-      
-
+    
       db.query(sql, [favoriteCanteen, favoriteMeal, userId], (err, result) => {
             console.log("Sucessfully updated user!");
             if (err) console.log(err);
