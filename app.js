@@ -18,8 +18,8 @@ const db = mysql.createPool({
 });
 
 app.use(cors({
-    //   origin: ["https://mensario.netlify.app"],
-      origin: ["http://localhost:3000"],
+      origin: ["https://mensario.netlify.app"],
+    //   origin: ["http://localhost:3000"],
       methods: ["GET", "POST", "PUT"],
       credentials: true
 }));
@@ -127,7 +127,7 @@ app.post("/register", (req, res) => {
     console.log("Auth: " + auth);
     // A real world application would store the subscription info.
 
-    rebuildSubscription(endpoint, expTime, p256dh, auth);
+    // rebuildSubscription(endpoint, expTime, p256dh, auth);
     saveSubscription(endpoint, expTime, p256dh, auth, 24);
     
 });
@@ -138,21 +138,19 @@ app.post("/sendNotification", (req, res) => {
     const payload = req.body.payload;
     const options = {
       TTL: req.body.ttl
-};
+    };
 
-
-
-setTimeout(function()
-{
-    webPush.sendNotification(subscription, payload, options)
-    .then(function() {
-        res.sendStatus(201);
-    })
-    .catch(function(error) {
-        console.log(error);
-        res.sendStatus(500);
-    });
-}, req.body.delay * 1000);
+    setTimeout(function()
+    {
+        webPush.sendNotification(subscription, payload, options)
+        .then(function() {
+            res.sendStatus(201);
+        })
+        .catch(function(error) {
+            console.log(error);
+            res.sendStatus(500);
+        });
+    }, req.body.delay * 1000);
 });
 
 
