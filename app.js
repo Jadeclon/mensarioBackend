@@ -70,11 +70,13 @@ app.get("/vapidPublicKey", (req, res) => {
 app.post("/register", (req, res) => {
     res.sendStatus(201);
 
-    console.log("Whole Subscription: " + JSON.stringify(req.body));
-    console.log("Subscription: " + JSON.stringify(req.body.subscription));
+    // console.log("Whole Subscription: " + JSON.stringify(req.body));
+    // console.log("Subscription: " + JSON.stringify(req.body.subscription));
     console.log("Endpoint: " + JSON.stringify(req.body.subscription.endpoint));
-    console.log("p256dh: " + JSON.stringify(req.body.subscription.p256dh));
-    console.log("Auth: " + JSON.stringify(req.body.subscription.auth));
+    console.log("Expiration Time: " + JSON.stringify(req.body.subscription.expirationTime));
+    console.log("Keys: " + JSON.stringify(req.body.subscription.keys));
+    console.log("p256dh: " + JSON.stringify(req.body.subscription.keys.p256dh));
+    console.log("Auth: " + JSON.stringify(req.body.subscription.keys.auth));
     // A real world application would store the subscription info.
 
     
