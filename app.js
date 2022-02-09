@@ -70,14 +70,24 @@ app.get("/vapidPublicKey", (req, res) => {
 app.post("/register", (req, res) => {
     res.sendStatus(201);
 
-    // console.log("Whole Subscription: " + JSON.stringify(req.body));
+    console.log("Whole Subscription: " + JSON.stringify(req.body));
     // console.log("Subscription: " + JSON.stringify(req.body.subscription));
-    console.log("Endpoint: " + JSON.stringify(req.body.subscription.endpoint));
-    console.log("Expiration Time: " + JSON.stringify(req.body.subscription.expirationTime));
-    console.log("Keys: " + JSON.stringify(req.body.subscription.keys));
-    console.log("p256dh: " + JSON.stringify(req.body.subscription.keys.p256dh));
-    console.log("Auth: " + JSON.stringify(req.body.subscription.keys.auth));
+    let endpoint = JSON.stringify(req.body.subscription.endpoint);
+    console.log("Endpoint: " + endpoint);
+
+    let expTime = JSON.stringify(req.body.subscription.expirationTime);
+    console.log("Expiration Time: " + expTime);
+    // console.log("Keys: " + JSON.stringify(req.body.subscription.keys));
+
+    let p256dh = JSON.stringify(req.body.subscription.keys.p256dh);
+    console.log("p256dh: " + p256dh);
+
+    let auth = JSON.stringify(req.body.subscription.keys.auth);
+    console.log("Auth: " + auth);
     // A real world application would store the subscription info.
+    
+    let rebuild = {"Subscription": [{"endpoint":endpoint}]};
+    console.log("Rebuild: " + rebuild);
 
     
 });
