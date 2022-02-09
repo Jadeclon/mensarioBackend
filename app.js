@@ -85,9 +85,18 @@ app.post("/register", (req, res) => {
     let auth = JSON.stringify(req.body.subscription.keys.auth);
     console.log("Auth: " + auth);
     // A real world application would store the subscription info.
-    
-    let rebuild = {"Subscription": [{"endpoint":endpoint}]};
-    console.log("Rebuild: " + rebuild);
+
+    let rebuild = {"subscription": [{
+                                        "endpoint":endpoint,
+                                        "expirationTime":null,
+                                        "keys":
+                                            [{
+                                                "p256dh":p256dh,
+                                                "auth":auth
+                                            }]
+                                    }]
+                                };
+    console.log("Rebuild: " + JSON.stringify(rebuild));
 
     
 });
