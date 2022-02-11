@@ -114,6 +114,7 @@ app.post("/register", (req, res) => {
 
     res.sendStatus(201);
 
+    console.log("Whole Subscription: " + subscription);
     console.log("Whole Subscription: " + JSON.stringify(subscription));
     console.log("Subscription: " + JSON.stringify(subscription.subscription));
     let endpoint = JSON.stringify(subscription.subscription.endpoint).replaceAll("\"", "");
