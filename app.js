@@ -110,7 +110,7 @@ const saveSubscription = (endpoint, expTime, p256dh, auth, userId) => {
 app.post("/register", (req, res) => {
     res.sendStatus(201);
 
-    console.log("Whole Subscription: " + JSON.stringify(req.body));
+    console.log("Whole Subscription: " + JSON.stringify(req.body.subscription));
     // console.log("Subscription: " + JSON.stringify(req.body.subscription));
     let endpoint = JSON.stringify(req.body.subscription.endpoint).replaceAll("\"", "");
     console.log("Endpoint: " + endpoint);
@@ -125,11 +125,12 @@ app.post("/register", (req, res) => {
 
     let auth = JSON.stringify(req.body.subscription.keys.auth).replaceAll("\"", "");
     console.log("Auth: " + auth);
-    
+
     // A real world application would store the subscription info.
 
     // rebuildSubscription(endpoint, expTime, p256dh, auth);
-    // saveSubscription(endpoint, expTime, p256dh, auth, 24);
+    print("Register: userId: " + req.body.userId);
+    saveSubscription(endpoint, expTime, p256dh, auth, req.body.userId);
     
 });
 
