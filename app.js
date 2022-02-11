@@ -109,7 +109,7 @@ const saveSubscription = (endpoint, expTime, p256dh, auth, userId) => {
 
 app.post("/register", (req, res) => {
 
-    const subscription = req.body.subscription;
+    const subscription = JSON.stringify(req.body.subscription);
     const userId = req.body.userId;
 
     res.sendStatus(201);
