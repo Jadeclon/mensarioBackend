@@ -114,7 +114,6 @@ app.post("/register", (req, res) => {
 
     res.sendStatus(201);
 
-    console.log("req.body: " + req.body);
     console.log("UserId: " + userId);
     console.log("Whole Subscription: " + JSON.stringify(subscription));
     console.log("Whole Subscription: " + JSON.stringify(req.body));
@@ -122,15 +121,15 @@ app.post("/register", (req, res) => {
     let endpoint = JSON.stringify(subscription.endpoint).replaceAll("\"", "");
     console.log("Endpoint: " + endpoint);
 
-    let expTime = JSON.stringify(expirationTime).replaceAll("\"", "");
+    let expTime = JSON.stringify(subscription.expirationTime).replaceAll("\"", "");
     console.log("Expiration Time: " + expTime);
     if(expTime == "null") { expTime = null; }
     // console.log("Keys: " + JSON.stringify(req.body.subscription.keys));
 
-    let p256dh = JSON.stringify(subscription.subscription.keys.p256dh).replaceAll("\"", "");
+    let p256dh = JSON.stringify(subscription.keys.p256dh).replaceAll("\"", "");
     console.log("p256dh: " + p256dh);
 
-    let auth = JSON.stringify(subscription.subscription.keys.auth).replaceAll("\"", "");
+    let auth = JSON.stringify(subscription.keys.auth).replaceAll("\"", "");
     console.log("Auth: " + auth);
 
     // A real world application would store the subscription info.
