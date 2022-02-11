@@ -195,7 +195,7 @@ app.get("/getSubscription/:userId", (req, res) => {
     const sql = `SELECT * FROM users WHERE userId = ?`;
 
     db.query(sql, [userId], (err, result) => {
-        console.log("getSubscription Result: " + result)
+        console.log("getSubscription Result: " + JSON.stringify(result));
         res.send(result);
     });
 });
