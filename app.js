@@ -116,10 +116,10 @@ app.post("/register", (req, res) => {
 
     console.log("req.body: " + req.body);
     console.log("UserId: " + userId);
-    console.log("Whole Subscription: " + subscription);
+    console.log("Whole Subscription: " + JSON.stringify(subscription));
     console.log("Whole Subscription: " + JSON.stringify(req.body));
-    console.log("Subscription: " + JSON.stringify(subscription.subscription));
-    let endpoint = JSON.stringify(subscription.subscription.endpoint).replaceAll("\"", "");
+    console.log("Subscription: " + JSON.stringify(subscription));
+    let endpoint = JSON.stringify(subscription.endpoint).replaceAll("\"", "");
     console.log("Endpoint: " + endpoint);
 
     let expTime = JSON.stringify(expirationTime).replaceAll("\"", "");
