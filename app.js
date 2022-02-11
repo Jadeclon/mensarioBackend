@@ -129,7 +129,7 @@ app.post("/register", (req, res) => {
     // A real world application would store the subscription info.
 
     // rebuildSubscription(endpoint, expTime, p256dh, auth);
-    print("Register: userId: " + req.body.userId);
+    console.log("Register: userId: " + req.body.userId);
     saveSubscription(endpoint, expTime, p256dh, auth, req.body.userId);
     
 });
