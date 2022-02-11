@@ -114,6 +114,8 @@ app.post("/register", (req, res) => {
 
     res.sendStatus(201);
 
+    console.log("req.body: " + req.body);
+    console.log("UserId: " + userId);
     console.log("Whole Subscription: " + subscription);
     console.log("Whole Subscription: " + JSON.stringify(subscription));
     console.log("Subscription: " + JSON.stringify(subscription.subscription));
