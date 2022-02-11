@@ -93,6 +93,8 @@ const rebuildSubscription = (endpoint, expTime, p256dh, auth) => {
 
     let auth2 = JSON.stringify(rebuild.subscription.keys.auth).replaceAll("\"", "");
     console.log("Auth: " + auth2);
+
+    return rebuild;
 }
 
 
@@ -196,7 +198,9 @@ app.get("/getSubscription/:userId", (req, res) => {
 
     db.query(sql, [userId], (err, result) => {
         console.log("getSubscription Result: " + JSON.stringify(result));
-        res.send(result);
+        const rebuild = rebuildSubscription(JSON.stringify(result.endpoint), JSON.stringify(result.expirationTime), JSON.stringify(result.p256dh), JSON.stringify(result.auth));
+        console.log("getSubscription Rebuild: " + rebuild);
+        res.send(rebuild);
     });
 });
 
