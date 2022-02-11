@@ -109,24 +109,25 @@ const saveSubscription = (endpoint, expTime, p256dh, auth, userId) => {
 
 app.post("/register", (req, res) => {
 
+    const subscription = req.body.subscription;
     const userId = req.body.userId;
 
     res.sendStatus(201);
 
-    console.log("Whole Subscription: " + JSON.stringify(req.body.subscription));
+    console.log("Whole Subscription: " + JSON.stringify(subscription));
     // console.log("Subscription: " + JSON.stringify(req.body.subscription));
-    let endpoint = JSON.stringify(req.body.subscription.endpoint).replaceAll("\"", "");
+    let endpoint = JSON.stringify(subscription.endpoint).replaceAll("\"", "");
     console.log("Endpoint: " + endpoint);
 
-    let expTime = JSON.stringify(req.body.subscription.expirationTime).replaceAll("\"", "");
+    let expTime = JSON.stringify(expirationTime).replaceAll("\"", "");
     console.log("Expiration Time: " + expTime);
     if(expTime == "null") { expTime = null; }
     // console.log("Keys: " + JSON.stringify(req.body.subscription.keys));
 
-    let p256dh = JSON.stringify(req.body.subscription.keys.p256dh).replaceAll("\"", "");
+    let p256dh = JSON.stringify(subscription.keys.p256dh).replaceAll("\"", "");
     console.log("p256dh: " + p256dh);
 
-    let auth = JSON.stringify(req.body.subscription.keys.auth).replaceAll("\"", "");
+    let auth = JSON.stringify(subscription.keys.auth).replaceAll("\"", "");
     console.log("Auth: " + auth);
 
     // A real world application would store the subscription info.
