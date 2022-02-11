@@ -188,6 +188,18 @@ app.post('/api/insert', (req, res) => {
     });
 });
 
+app.get("/getSubscription/:userId", (req, res) => {
+    
+    const userId = req.params.userId;
+    
+    const sql = `SELECT * FROM users WHERE userId = ?`;
+
+    db.query(sql, [userId], (err, result) => {
+        console.log("getSubscription Result: " + result)
+        res.send(result);
+    });
+});
+
 
 app.get("/getCanteens", (req, res) => {
       // if(!req.session.user) { return res.send("You are not logged in!"); }
