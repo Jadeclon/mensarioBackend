@@ -202,8 +202,9 @@ app.get("/getSubscription/:userId", (req, res) => {
     const sql = `SELECT * FROM users WHERE userId = ?`;
 
     db.query(sql, [userId], (err, result) => {
+        console.log("getSubscription Raw Result: " + result);
         console.log("getSubscription Result: " + JSON.stringify(result));
-        console.log("getSubscription Endpoint: " + JSON.stringify(result));
+        console.log("getSubscription Endpoint: " + result[0].endpoint);
         const rebuild = rebuildSubscription(JSON.stringify(result.endpoint), JSON.stringify(result.expirationTime), JSON.stringify(result.p256dh), JSON.stringify(result.auth));
         console.log("getSubscription Rebuild: " + rebuild);
         console.log();
