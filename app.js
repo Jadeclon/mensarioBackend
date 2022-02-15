@@ -106,6 +106,7 @@ const saveSubscription = (endpoint, expTime, p256dh, auth, userId) => {
           console.log("Sucessfully saved subscription!");
           if (err) console.log(err);
     });
+    rebuildSubscription(endpoint, expTime, p256dh, auth);
 }
 
 
