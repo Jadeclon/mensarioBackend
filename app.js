@@ -69,6 +69,10 @@ app.get("/vapidPublicKey", (req, res) => {
 
 const rebuildSubscription = (endpoint, expTime, p256dh, auth) => {
 
+    console.log("RebuildSubscription Endpoint: " + endpoint);
+    console.log("RebuildSubscription expTime: " + expTime);
+    console.log("RebuildSubscription p256dh: " + p256dh);
+    console.log("RebuildSubscription auth: " + auth);
     let rebuild = {"subscription": {
         "endpoint":endpoint,
         "expirationTime":expTime,
