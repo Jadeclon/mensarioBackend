@@ -203,7 +203,7 @@ app.get("/getSubscription/:userId", (req, res) => {
 
     db.query(sql, [userId], (err, result) => {
         console.log("getSubscription Result: " + JSON.stringify(result));
-        console.log("getSubscription Endpoint: " + JSON.stringify(result.endpoint));
+        console.log("getSubscription Endpoint: " + JSON.stringify(result));
         const rebuild = rebuildSubscription(JSON.stringify(result.endpoint), JSON.stringify(result.expirationTime), JSON.stringify(result.p256dh), JSON.stringify(result.auth));
         console.log("getSubscription Rebuild: " + rebuild);
         console.log();
