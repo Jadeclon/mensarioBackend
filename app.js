@@ -209,7 +209,7 @@ app.get("/getSubscription/:userId", (req, res) => {
         const rebuild = rebuildSubscription(JSON.stringify(result[0].endpoint), JSON.stringify(result[0].expirationTime), JSON.stringify(result[0].p256dh), JSON.stringify(result[0].auth));
         console.log("getSubscription Rebuild: " + JSON.stringify(rebuild));
         console.log();
-        res.send(rebuild);
+        res.send(result);
     });
 });
 
