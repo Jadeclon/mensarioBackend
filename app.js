@@ -17,9 +17,10 @@ const db = mysql.createPool({
       host: process.env.DB_HOST,
 });
 
+const origin = process.env.REACT_APP_DATABASE_LOCATION || "https://mensario.netlify.app";
 
 app.use(cors({
-      origin: [process.env.REACT_APP_DATABASE_LOCATION || "https://mensario.netlify.app"],
+      origin: [origin],
       methods: ["GET", "POST", "PUT"],
       credentials: true
 }));
@@ -321,5 +322,6 @@ app.put('/api/updateUser', async (req, res) => {
 
 
 app.listen(process.env.PORT || 5000, () => {
+      console.log("Origin: " + origin);
       console.log(`Running on port ${process.env.PORT}...`);
 });
