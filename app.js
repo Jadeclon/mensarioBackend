@@ -17,9 +17,9 @@ const db = mysql.createPool({
       host: process.env.DB_HOST,
 });
 
+
 app.use(cors({
-      origin: ["https://mensario.netlify.app"],
-    //   origin: ["http://localhost:3000"],
+      origin: [process.env.REACT_APP_DATABASE_LOCATION || "https://mensario.netlify.app"],
       methods: ["GET", "POST", "PUT"],
       credentials: true
 }));
@@ -50,7 +50,6 @@ if (!process.env.VAPID_PUBLIC_KEY || !process.env.VAPID_PRIVATE_KEY)
     console.log("You must set the VAPID_PUBLIC_KEY and VAPID_PRIVATE_KEY "+
       "environment variables. You can use the following ones:");
     console.log(webPush.generateVAPIDKeys());
-    return;
 }
 
 // Set the keys used for encrypting the push messages.
@@ -261,7 +260,7 @@ app.post('/login', (req, res) => {
 
                   if(err) { console.log }
 
-                  if(result.length > 0) {
+                  if(typeof result != undefined && result.length > 0) {
                         if(password === result[0].password) {
                               req.session.user = result;
                               req.session.user[0].password = "?";
@@ -310,15 +309,14 @@ app.delete('/api/delete/:articleId', (req, res) => {
 
 
 app.put('/api/updateUser', async (req, res) => {
-      const userId = req.body.userId;
-      const favoriteCanteen = req.body.favoriteCanteen;
-      const favoriteMeal = req.body.favoriteMeal;
-      const sql = `UPDATE users SET favoriteCanteen = ?, favoriteMeal = ? WHERE userId = ?`;
-    
-      db.query(sql, [favoriteCanteen, favoriteMeal, userId], (err, result) => {
-            console.log("Sucessfully updated user!");
-            if (err) console.log(err);
-      });
+    const user = req.body.user;
+
+    const sql = `UPDATE users SET favoriteCanteen = ?, favoriteMeal = ?, preferedFood = ?, allergics = ? WHERE userId = ?`;
+  
+    db.query(sql, [user.favoriteCanteen, user.favoriteMeal, user.preferedFood, user.allergics, user.userId], (err, result) => {
+          console.log("Sucessfully updated user!");
+          if (err) console.log(err);
+    });
 });
 
 
