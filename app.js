@@ -151,6 +151,7 @@ app.post("/sendNotification", (req, res) => {
     console.log("Sending Notification...");
     const subscription = req.body.subscription;
     const payload = req.body.payload;
+    const delay = req.body.delay;
     const options = {
       TTL: req.body.ttl
     };
@@ -165,7 +166,7 @@ app.post("/sendNotification", (req, res) => {
             console.log(error);
             res.sendStatus(500);
         });
-    }, req.body.delay * 1000);
+    }, delay * 1000);
 });
 
 
