@@ -204,6 +204,12 @@ app.get("/getSubscription/:userId", (req, res) => {
     const sql = `SELECT * FROM users WHERE userId = ?`;
 
     db.query(sql, [userId], (err, result) => {
+
+        if(err) {
+            console.log("/getSubscription/:userId Exception: " + err);
+            res.sendStatus(500);
+        }
+
         console.log("getSubscription Raw Result: " + result);
         console.log("getSubscription Result: " + JSON.stringify(result));
         console.log("getSubscription Endpoint: " + result[0].endpoint);
@@ -211,9 +217,6 @@ app.get("/getSubscription/:userId", (req, res) => {
         console.log("getSubscription Rebuild: " + JSON.stringify(rebuild));
         console.log();
         res.send(result);
-    }).catch(function(err) {
-        console.log("/getSubscription/:userId Exception: " + err);
-        res.sendStatus(500);
     });
 });
 
