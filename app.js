@@ -211,6 +211,9 @@ app.get("/getSubscription/:userId", (req, res) => {
         console.log("getSubscription Rebuild: " + JSON.stringify(rebuild));
         console.log();
         res.send(result);
+    }).catch(function(err) {
+        console.log("/getSubscription/:userId Exception: " + err);
+        res.sendStatus(500);
     });
 });
 
