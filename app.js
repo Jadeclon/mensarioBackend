@@ -201,7 +201,7 @@ app.get("/getSubscription/:userId", (req, res) => {
     
     const userId = req.params.userId;
     
-    const sql = `SELECT * FROM users WHERE userId = 24`;
+    const sql = `SELECT * FROM users WHERE userId = ?`;
 
     db.query(sql, [userId], (err, result) => {
         console.log("getSubscription Raw Result: " + result);
