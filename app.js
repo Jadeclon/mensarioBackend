@@ -24,6 +24,8 @@ const origin = process.env.REACT_APP_DATABASE_LOCATION || "https://mensario.netl
 //     next();
 // });
 
+app.options('*', cors()) // include before other routes
+
 app.use(cors({
       origin: "https://mensario.netlify.app",
       methods: ["GET", "POST", "PUT"],
