@@ -22,13 +22,13 @@ const origin = process.env.REACT_APP_DATABASE_LOCATION || "https://mensario.netl
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
     next();
-  });
+});
 
-app.use(cors({
-      origin: [origin],
-      methods: ["GET", "POST", "PUT"],
-      credentials: true
-}));
+// app.use(cors({
+//       origin: [origin],
+//       methods: ["GET", "POST", "PUT"],
+//       credentials: true
+// }));
 app.use(express.json());
 app.use(
       express.urlencoded({
